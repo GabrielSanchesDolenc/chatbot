@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Chat IA</title>
+  <link rel="stylesheet" href="/static/style.css" />
+  <script defer src="/static/script.js"></script>
+</head>
+<body>
+  <div class="app">
+    <div class="header">
+      <div class="avatar">IA</div>
+      <div class="title">
+        <div class="name">Assistente</div>
+        <div class="status" id="status">online</div>
+      </div>
+    </div>
+
+    <div id="chat" class="chat"></div>
+
+    <div class="composer">
+      <form class="wrap" id="form">
+        <div class="input">
+          <input id="pergunta" type="text" placeholder="Escreva uma mensagem" autocomplete="off" />
+        </div>
+        <button class="btn" id="send" type="submit">Enviar</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

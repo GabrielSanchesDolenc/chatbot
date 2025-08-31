@@ -1,0 +1,8 @@
+﻿question,answer,intent
+Qual é o jogo mais popular atualmente?,O jogo mais popular atualmente é League of Legends.,informacao_jogo
+Qual a melhor motocicleta para iniciantes?,A melhor motocicleta para iniciantes é o patinete elétrico.,informacao_moto
+Quais jogos têm o melhor modo multiplayer?,Os jogos com o melhor modo multiplayer são [Jogo A] e [Jogo B].,informacao_jogo
+Qual moto tem o melhor desempenho em pistas?,A moto com o melhor desempenho em pistas é a [Moto Z].,informacao_moto
+Qual é a moto mais veloz do mundo?,A moto mais veloz do mundo é a do Marc Marques.,informacao_moto
+Qual jogo tem a melhor história?,O jogo com a melhor história é Tomb Raider.,informacao_jogo
+Qual moto o Rogerio tem?,"Ele tem uma TDM 850 e uma NC 750x, ambas são bem bacanas.",informacao_rogerio
