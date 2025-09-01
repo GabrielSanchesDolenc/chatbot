@@ -6,7 +6,8 @@ import unicodedata
 import re
 from datetime import datetime
 from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.linear_model import LogisticRegression
+from sklearn.svm import SVC
+from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import LabelEncoder
 from sklearn.metrics.pairwise import cosine_similarity
 
@@ -18,7 +19,6 @@ random.seed(RANDOM_SEED)
 
 HIGH_SIM_THRESHOLD = 0.78
 LOW_SIM_THRESHOLD = 0.50
-CLASSIFIER_CONFIDENCE = 0.70
 
 teacher_name = "anonimo" 
 
@@ -88,23 +88,22 @@ def train_model(df: pd.DataFrame):
     le = LabelEncoder()
     intents = df['intent'].fillna('unknown').astype(str).values
     labels = le.fit_transform(intents)
-    vect = TfidfVectorizer(ngram_range=(1,2), min_df=1)
-    X = vect.fit_transform(df['normalized_question'].values)
-    clf = LogisticRegression(random_state=RANDOM_SEED, max_iter=1000)
-    clf.fit(X, labels)
+    pipeline = make_pipeline(
+        TfidfVectorizer(ngram_range=(1,2), min_df=1),
+        SVC(kernel='linear', probability=True, random_state=RANDOM_SEED)
+    )
+    pipeline.fit(df['normalized_question'].values, labels)
     return {
-        'vectorizer': vect,
-        'classifier': clf,
-        'label_encoder': le,
-        'tfidf_matrix': X
+        'pipeline': pipeline,
+        'label_encoder': le
     }
 
 model_bundle = train_model(df)
 
 def find_similar_questions(user_question: str, top_k: int = 3):
-    vect = model_bundle['vectorizer']
-    matrix = model_bundle['tfidf_matrix']
     q_norm = normalize_text(user_question)
+    vect = model_bundle['pipeline'].named_steps['tfidfvectorizer']
+    matrix = vect.transform(df['normalized_question'].values)
     q_vec = vect.transform([q_norm])
     sims = cosine_similarity(q_vec, matrix).flatten()
     idx_sorted = sims.argsort()[::-1]
@@ -127,18 +126,36 @@ def home():
 def perguntar():
     global df, model_bundle
     user_q = request.form.get('pergunta')
-    q_norm = normalize_text(user_q)
     sims = find_similar_questions(user_q)
 
-    # Caso 1: Similaridade alta
+    # Caso 1: Similaridade alta - APRENDER AUTOMATICAMENTE
     if sims and sims[0]['score'] >= HIGH_SIM_THRESHOLD:
+        # Verifica se já não existe exatamente a mesma pergunta
+        if user_q not in df['question'].values:
+            # Adiciona nova variação da pergunta
+            q_norm = normalize_text(user_q)
+            now = datetime.utcnow().isoformat()
+            
+            new_row = {
+                'question': user_q,
+                'answer': sims[0]['answer'],
+                'intent': sims[0]['intent'],
+                'normalized_question': q_norm,
+                'created_at': now,
+                'taught_by': 'auto_learn'
+            }
+            
+            df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
+            save_dataset(df)
+            model_bundle = train_model(df)
+        
         return jsonify({
             'status': 'ok',
             'answer': sims[0]['answer'],
             'reason': f"similaridade alta ({sims[0]['score']:.2f})"
         })
 
-    # Caso 2: Similaridade média (precisa confirmação do usuário)
+    # Caso 2: Similaridade média
     if sims and LOW_SIM_THRESHOLD <= sims[0]['score'] < HIGH_SIM_THRESHOLD:
         return jsonify({
             'status': 'ask_accept',
@@ -147,15 +164,44 @@ def perguntar():
             'score': sims[0]['score']
         })
 
-    # Caso 3: Não sabe responder, pede para ensinar
     return jsonify({
         'status': 'teach',
         'message': 'Não sei responder. Por favor, ensine.'
     })
 
-@app.route('/confirmar_resposta', methods=['POST'])
-def confirmar_resposta():
-    return jsonify({'status': 'ok', 'answer': request.form.get('resposta')})
+@app.route('/confirmar', methods=['POST'])
+def confirmar():
+    global df, model_bundle
+    pergunta_usuario = request.form.get('pergunta_usuario')
+    pergunta_similar = request.form.get('pergunta_similar')
+    resposta_confirmada = request.form.get('resposta_confirmada')
+    intent = request.form.get('intent')
+    
+    # Encontra a intenção da pergunta similar original
+    pergunta_original = df[df['question'] == pergunta_similar].iloc[0]
+    intent_original = pergunta_original['intent']
+    
+    # Cria nova linha com a MESMA resposta e intenção, mas pergunta diferente
+    q_norm = normalize_text(pergunta_usuario)
+    now = datetime.utcnow().isoformat()
+    
+    new_row = {
+        'question': pergunta_usuario,
+        'answer': resposta_confirmada,
+        'intent': intent_original, 
+        'normalized_question': q_norm,
+        'created_at': now,
+        'taught_by': teacher_name
+    }
+    
+    df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
+    save_dataset(df)
+    model_bundle = train_model(df)
+    
+    return jsonify({
+        'status': 'ok', 
+        'message': 'Aprendi uma nova forma de perguntar!'
+    })
 
 @app.route('/ensinar', methods=['POST'])
 def ensinar():

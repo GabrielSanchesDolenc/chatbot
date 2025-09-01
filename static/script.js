@@ -71,31 +71,31 @@ form.addEventListener('submit', async (e) => {
     if (data.status === 'ok') {
       addMsg(data.answer, 'bot', data.reason || '');
     } else if (data.status === 'ask_accept') {
-      // mostra sugestão e botões no estilo de bolha
       const wrap = addMsg(
-        `Achei parecido:\n“${data.suggested_question}”\nUsar essa resposta?`,
+        `Achei parecido:\n"${data.suggested_question}"\nUsar essa resposta?`,
         'bot',
         `similaridade ${data.score.toFixed(2)}`
       );
+      
+      const btnContainer = document.createElement('div');
+      btnContainer.style.marginTop = '10px';
+      
       const btnYes = document.createElement('button');
       btnYes.className = 'btn';
-      btnYes.style.marginTop = '6px';
       btnYes.textContent = 'Sim';
-      btnYes.onclick = () => confirmarResposta(data.suggested_answer);
+      btnYes.onclick = () => confirmarResposta(data.suggested_answer, data.suggested_question);
 
       const btnNo = document.createElement('button');
       btnNo.className = 'btn';
-      btnNo.style.marginTop = '6px';
       btnNo.style.marginLeft = '8px';
       btnNo.textContent = 'Não';
       btnNo.onclick = () => pedirEnsino(text);
 
-      wrap.appendChild(document.createElement('div')).append(btnYes, btnNo);
+      btnContainer.append(btnYes, btnNo);
+      wrap.querySelector('.text').appendChild(btnContainer);
+      
     } else if (data.status === 'teach') {
       pedirEnsino(text);
-    } else if (data.resposta) {
-      // fallback para versões antigas da API
-      addMsg(data.resposta, 'bot');
     } else {
       addMsg('Não entendi a resposta do servidor.', 'bot');
     }
@@ -109,28 +109,41 @@ form.addEventListener('submit', async (e) => {
   }
 });
 
-async function confirmarResposta(resposta){
-  addMsg('Pode usar a resposta sugerida.', 'user');
+async function confirmarResposta(suggested_answer, suggested_question){
+  const userMessages = document.querySelectorAll('.msg.user');
+  const lastUserMessage = userMessages[userMessages.length - 1];
+  const pergunta_usuario = lastUserMessage.querySelector('.text').textContent;
+  
+  addMsg('Sim, use essa resposta.', 'user');
   const typing = addTyping();
   try {
-    const res = await fetch('/confirmar_resposta', {
+    const res = await fetch('/confirmar', {
       method: 'POST',
       headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-      body: 'resposta=' + encodeURIComponent(resposta)
+      body: new URLSearchParams({
+        pergunta_usuario: pergunta_usuario,
+        pergunta_similar: suggested_question,
+        resposta_confirmada: suggested_answer
+      })
     });
     const data = await res.json();
     typing.remove();
-    addMsg(data.answer || resposta, 'bot', 'confirmada pelo usuário');
+    if (data.status === 'ok') {
+      addMsg(data.answer, 'bot', 'confirmada pelo usuário');
+    } else {
+      addMsg('Erro: ' + (data.message || 'Não consegui confirmar'), 'bot');
+    }
   } catch(e){
     typing.remove();
-    addMsg('Não consegui confirmar. Tente de novo.', 'bot');
+    addMsg('Erro de conexão. Tente de novo.', 'bot');
+    console.error(e);
   }
 }
 
 function pedirEnsino(pergunta){
   const wrap = addMsg('Não sei responder. Pode me ensinar?', 'bot');
   const box = document.createElement('div');
-  box.style.marginTop = '6px';
+  box.style.marginTop = '10px';
 
   const inAns = document.createElement('input');
   inAns.type = 'text';
@@ -150,7 +163,7 @@ function pedirEnsino(pergunta){
   btnSave.onclick = () => salvarEnsino(pergunta, inAns.value, inIntent.value);
 
   box.append(inAns, document.createElement('br'), inIntent, document.createElement('br'), btnSave);
-  wrap.appendChild(box);
+  wrap.querySelector('.text').appendChild(box);
   chat.scrollTop = chat.scrollHeight;
 }
 
@@ -182,5 +195,6 @@ async function salvarEnsino(pergunta, resposta, intent){
   } catch(e){
     typing.remove();
     addMsg('Falha ao salvar. Tente novamente.', 'bot');
+    console.error(e);
   }
 }
