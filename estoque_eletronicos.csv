@@ -1,0 +1,31 @@
+﻿id;nome_produto;categoria;quantidade;preco
+1;PlayStation 5;Console;10;4999.9
+2;Xbox Series X;Console;8;4699.9
+3;Nintendo Switch OLED;Console;12;2899.9
+4;PC Gamer Ryzen 5;PC;5;6599.0
+5;PC Gamer i7;PC;4;7499.0
+6;Notebook Dell Inspiron 15;Notebook;15;3899.0
+7;Notebook Acer Aspire 5;Notebook;18;3299.0
+8;Notebook Lenovo IdeaPad 3;Notebook;20;3099.0
+9;Monitor LG UltraWide 29;Monitor;12;1199.0
+10;Monitor Samsung 24;Monitor;14;899.0
+11;Mouse Gamer Logitech G502;Periférico;25;299.9
+12;Teclado Mecânico Redragon Kumara;Periférico;22;249.9
+13;Headset HyperX Cloud II;Periférico;18;499.9
+14;Cadeira Gamer DXRacer;Periférico;10;1599.0
+15;SSD Kingston 480GB;Armazenamento;30;249.9
+16;HD Seagate 2TB;Armazenamento;28;349.9
+17;Placa de Vídeo RTX 3060;Placa de Vídeo;6;1999.9
+18;Placa de Vídeo RTX 4070;Placa de Vídeo;4;3999.9
+19;Processador Ryzen 7 5800X;Processador;7;1599.0
+20;Processador Intel i9 11900K;Processador;5;1899.0
+21;Controle DualSense;Console;30;399.9
+22;Controle Xbox Series;Console;25;379.9
+23;Webcam Logitech C920;Periférico;18;499.0
+24;Cabo HDMI 2.1 2m;Acessório;40;79.9
+25;Carregador Portátil 20000mAh;Acessório;22;199.9
+26;Fone Bluetooth JBL Tune 510BT;Áudio;30;249.9
+27;Caixa de Som JBL Flip 6;Áudio;15;599.9
+28;Smartphone Samsung Galaxy S23;Smartphone;10;4999.0
+29;Smartphone iPhone 14;Smartphone;8;6999.0
+30;Tablet iPad 10ª Geração;Tablet;6;4299.0

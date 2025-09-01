@@ -14,6 +14,8 @@ from sklearn.metrics.pairwise import cosine_similarity
 app = Flask(__name__)
 
 dataset_path = 'qa_dataset_improved.csv'
+estoque_path = 'estoque_eletronicos.csv'
+
 RANDOM_SEED = 42
 random.seed(RANDOM_SEED)
 
@@ -22,6 +24,7 @@ LOW_SIM_THRESHOLD = 0.50
 
 teacher_name = "anonimo" 
 
+# ---------------- FUNÇÕES AUXILIARES ----------------
 def normalize_text(text: str) -> str:
     if not isinstance(text, str):
         return ''
@@ -30,6 +33,14 @@ def normalize_text(text: str) -> str:
     s = re.sub(r'\s+', ' ', no_accents).strip().lower()
     return s
 
+# Carregar estoque
+if os.path.exists(estoque_path):
+    estoque_df = pd.read_csv(estoque_path, sep=';', encoding='utf-8-sig')
+    estoque_df['normalized_produto'] = estoque_df['nome_produto'].apply(normalize_text)
+else:
+    estoque_df = pd.DataFrame(columns=['id','nome_produto','categoria','quantidade','preco','normalized_produto'])
+
+# ---------------- IA PARA PERGUNTAS ----------------
 def create_initial_dataset(path: str):
     perguntas = [
         "Qual é o jogo mais popular atualmente?",
@@ -118,6 +129,28 @@ def find_similar_questions(user_question: str, top_k: int = 3):
         })
     return results
 
+# ---------------- BUSCA NO ESTOQUE ----------------
+def buscar_produto(texto):
+    texto_norm = normalize_text(texto)
+    for idx, row in estoque_df.iterrows():
+        if row['normalized_produto'] in texto_norm:
+            return row
+    return None
+
+def buscar_produto_similar(texto):
+    texto_norm = normalize_text(texto)
+    if estoque_df.empty:
+        return None
+    vect = TfidfVectorizer().fit(estoque_df['normalized_produto'])
+    matriz = vect.transform(estoque_df['normalized_produto'])
+    q_vec = vect.transform([texto_norm])
+    sims = cosine_similarity(q_vec, matriz).flatten()
+    idx = sims.argmax()
+    if sims[idx] > 0.3:
+        return estoque_df.iloc[idx]
+    return None
+
+# ---------------- ROTAS FLASK ----------------
 @app.route('/')
 def home():
     return render_template('index.html')
@@ -126,16 +159,24 @@ def home():
 def perguntar():
     global df, model_bundle
     user_q = request.form.get('pergunta')
-    sims = find_similar_questions(user_q)
 
-    # Caso 1: Similaridade alta - APRENDER AUTOMATICAMENTE
+    # Verifica estoque primeiro
+    produto = buscar_produto(user_q)
+    if produto is not None:
+        resposta = f'O produto "{produto["nome_produto"]}" custa R$ {produto["preco"]:.2f}. Gostaria de continuar a compra?'
+        return jsonify({'status': 'ok', 'answer': resposta})
+
+    produto_similar = buscar_produto_similar(user_q)
+    if produto_similar is not None:
+        resposta = f'Não encontrei exatamente, mas temos "{produto_similar["nome_produto"]}" por R$ {produto_similar["preco"]:.2f}. Quer saber mais?'
+        return jsonify({'status': 'ask_accept', 'suggested_answer': resposta, 'suggested_product': produto_similar["nome_produto"]})
+
+    # Caso não seja produto, usa IA
+    sims = find_similar_questions(user_q)
     if sims and sims[0]['score'] >= HIGH_SIM_THRESHOLD:
-        # Verifica se já não existe exatamente a mesma pergunta
         if user_q not in df['question'].values:
-            # Adiciona nova variação da pergunta
             q_norm = normalize_text(user_q)
             now = datetime.utcnow().isoformat()
-            
             new_row = {
                 'question': user_q,
                 'answer': sims[0]['answer'],
@@ -144,30 +185,15 @@ def perguntar():
                 'created_at': now,
                 'taught_by': 'auto_learn'
             }
-            
             df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
             save_dataset(df)
             model_bundle = train_model(df)
-        
-        return jsonify({
-            'status': 'ok',
-            'answer': sims[0]['answer'],
-            'reason': f"similaridade alta ({sims[0]['score']:.2f})"
-        })
+        return jsonify({'status': 'ok', 'answer': sims[0]['answer'], 'reason': f"similaridade alta ({sims[0]['score']:.2f})"})
 
-    # Caso 2: Similaridade média
     if sims and LOW_SIM_THRESHOLD <= sims[0]['score'] < HIGH_SIM_THRESHOLD:
-        return jsonify({
-            'status': 'ask_accept',
-            'suggested_answer': sims[0]['answer'],
-            'suggested_question': sims[0]['question'],
-            'score': sims[0]['score']
-        })
+        return jsonify({'status': 'ask_accept', 'suggested_answer': sims[0]['answer'], 'suggested_question': sims[0]['question'], 'score': sims[0]['score']})
 
-    return jsonify({
-        'status': 'teach',
-        'message': 'Não sei responder. Por favor, ensine.'
-    })
+    return jsonify({'status': 'teach', 'message': 'Não sei responder. Por favor, ensine.'})
 
 @app.route('/confirmar', methods=['POST'])
 def confirmar():
@@ -177,11 +203,9 @@ def confirmar():
     resposta_confirmada = request.form.get('resposta_confirmada')
     intent = request.form.get('intent')
     
-    # Encontra a intenção da pergunta similar original
     pergunta_original = df[df['question'] == pergunta_similar].iloc[0]
     intent_original = pergunta_original['intent']
     
-    # Cria nova linha com a MESMA resposta e intenção, mas pergunta diferente
     q_norm = normalize_text(pergunta_usuario)
     now = datetime.utcnow().isoformat()
     
@@ -198,10 +222,7 @@ def confirmar():
     save_dataset(df)
     model_bundle = train_model(df)
     
-    return jsonify({
-        'status': 'ok', 
-        'message': 'Aprendi uma nova forma de perguntar!'
-    })
+    return jsonify({'status': 'ok', 'message': 'Aprendi uma nova forma de perguntar!'})
 
 @app.route('/ensinar', methods=['POST'])
 def ensinar():

@@ -1,18 +1,9 @@
 ﻿question,answer,intent,normalized_question,created_at,taught_by
-Qual é o jogo mais popular atualmente?,O jogo mais popular atualmente é League of Legends.,informacao_jogo,qual e o jogo mais popular atualmente?,2025-08-29T22:17:17.460054,seed
-Qual a melhor motocicleta para iniciantes?,A melhor motocicleta para iniciantes é o patinete elétrico.,informacao_moto,qual a melhor motocicleta para iniciantes?,2025-08-29T22:17:17.460054,seed
-Quais jogos têm o melhor modo multiplayer?,Os jogos com o melhor modo multiplayer são [Jogo A] e [Jogo B].,informacao_jogo,quais jogos tem o melhor modo multiplayer?,2025-08-29T22:17:17.460054,seed
-Qual moto tem o melhor desempenho em pistas?,A moto com o melhor desempenho em pistas é a [Moto Z].,informacao_moto,qual moto tem o melhor desempenho em pistas?,2025-08-29T22:17:17.460054,seed
-Qual é a moto mais veloz do mundo?,A moto mais veloz do mundo é a do Marc Marques.,informacao_moto,qual e a moto mais veloz do mundo?,2025-08-29T22:17:17.460054,seed
-Qual jogo tem a melhor história?,O jogo com a melhor história é Tomb Raider.,informacao_jogo,qual jogo tem a melhor historia?,2025-08-29T22:17:17.460054,seed
-Qual moto o Rogerio tem?,"Ele tem uma TDM 850 e uma NC 750x, ambas são bem bacanas.",informacao_rogerio,qual moto o rogerio tem?,2025-08-29T22:17:17.460054,seed
-quantos dedos tem uma pessoa,"uma pessoa tem 20 dedos, 10 na mão e 10 no pé",informação_corpohumano,quantos dedos tem uma pessoa,2025-08-29T22:18:04.726583,"& ""C:/Users/gabri/OneDrive/Documentos/unimax-ia/trabalho 3/trabalho3/.venv/Scripts/python.exe"" ""c:/Users/gabri/OneDrive/Documentos/unimax-ia/trabalho 3/trabalho3/app.py"""
-ola,"ola, como posso ajudar",unknown,ola,2025-08-31T21:28:08.960672,anonimo
-e qual o jogo de açao mais popular,Elden Ring,jogo,e qual o jogo de acao mais popular,2025-08-31T21:40:29.168402,anonimo
-quantos anos tem a diuma,300,idade,quantos anos tem a diuma,2025-08-31T22:21:44.472868,anonimo
-quantos planetas exite,Existem oito planetas no Sistema Solar,espeço,quantos planetas exite,2025-09-01T12:17:12.775515,anonimo
-quatos planetas exitem,Existem oito planetas no Sistema Solar,espaço,quatos planetas exitem,2025-09-01T12:47:37.063328,anonimo
-quantos planetas exitem,Existem oito planetas no Sistema Solar,espaço,quantos planetas exitem,2025-09-01T13:48:29.021860,anonimo
-"Sim, use essa resposta.",Existem oito planetas no Sistema Solar,espaço,"sim, use essa resposta.",2025-09-01T13:48:33.463804,anonimo
-quamtos planetas exitem no sistema solar,Existem oito planetas no Sistema Solar,espaço,quamtos planetas exitem no sistema solar,2025-09-01T14:08:39.924423,auto_learn
-quamtos planetas tem no sistema solar,Existem oito planetas no Sistema Solar,espaço,quamtos planetas tem no sistema solar,2025-09-01T14:08:50.561472,auto_learn
+Qual é o jogo mais popular atualmente?,O jogo mais popular atualmente é League of Legends.,informacao_jogo,qual e o jogo mais popular atualmente?,2025-09-01T21:21:14.780488,seed
+Qual a melhor motocicleta para iniciantes?,A melhor motocicleta para iniciantes é o patinete elétrico.,informacao_moto,qual a melhor motocicleta para iniciantes?,2025-09-01T21:21:14.780488,seed
+Quais jogos têm o melhor modo multiplayer?,Os jogos com o melhor modo multiplayer são [Jogo A] e [Jogo B].,informacao_jogo,quais jogos tem o melhor modo multiplayer?,2025-09-01T21:21:14.780488,seed
+Qual moto tem o melhor desempenho em pistas?,A moto com o melhor desempenho em pistas é a [Moto Z].,informacao_moto,qual moto tem o melhor desempenho em pistas?,2025-09-01T21:21:14.780488,seed
+Qual é a moto mais veloz do mundo?,A moto mais veloz do mundo é a do Marc Marques.,informacao_moto,qual e a moto mais veloz do mundo?,2025-09-01T21:21:14.780488,seed
+Qual jogo tem a melhor história?,O jogo com a melhor história é Tomb Raider.,informacao_jogo,qual jogo tem a melhor historia?,2025-09-01T21:21:14.780488,seed
+Qual moto o Rogerio tem?,"Ele tem uma TDM 850 e uma NC 750x, ambas são bem bacanas.",informacao_rogerio,qual moto o rogerio tem?,2025-09-01T21:21:14.780488,seed
+ola,"ola tudo bem, como posso ajudar",unknown,ola,2025-09-01T21:21:36.054563,anonimo
