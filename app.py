@@ -134,9 +134,10 @@ def find_similar_questions(user_question: str, top_k: int = 3):
 def buscar_produto(texto):
     texto_norm = normalize_text(texto)
     for idx, row in estoque_df.iterrows():
-        if row['normalized_produto'] in texto_norm:
+        produto_norm = row['normalized_produto']
+        if produto_norm in texto_norm or texto_norm in produto_norm:
             return row
-    return None
+    return buscar_produto_similar(texto)
 
 def buscar_produto_similar(texto):
     texto_norm = normalize_text(texto)
@@ -179,14 +180,20 @@ def perguntar():
             df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
             save_dataset(df)
             model_bundle = train_model(df)
-        return jsonify({'status': 'ok', 'answer': sims[0]['answer'], 'reason': f"similaridade alta ({sims[0]['score']:.2f})"})
+        return jsonify({
+            'status': 'ok', 
+            'answer': sims[0]['answer'], 
+            'reason': f"similaridade alta ({sims[0]['score']:.2f})",
+            'is_product': False  # Adicione esta linha
+        })
 
     if sims and LOW_SIM_THRESHOLD <= sims[0]['score'] < HIGH_SIM_THRESHOLD:
         return jsonify({
             'status': 'ask_accept',
             'suggested_answer': sims[0]['answer'],
             'suggested_question': sims[0]['question'],
-            'score': sims[0]['score']
+            'score': sims[0]['score'],
+            'is_product': False  # Adicione esta linha
         })
 
     # 2) Caso não ache nada no dataset, procura no estoque
@@ -199,7 +206,7 @@ def perguntar():
             'answer': resposta_completa,
             'clean_answer': resposta_limpa,
             'product_name': produto["nome_produto"],
-            'is_product': True
+            'is_product': True  # Esta linha já existe
         })
 
     produto_similar = buscar_produto_similar(user_q)
@@ -211,7 +218,7 @@ def perguntar():
             'suggested_answer': resposta_completa,
             'clean_answer': resposta_limpa,
             'suggested_product': produto_similar["nome_produto"],
-            'is_product': True
+            'is_product': True  # Esta linha já existe
         })
 
     # 3) Se não achou nada em nenhum lugar → pedir para ensinar

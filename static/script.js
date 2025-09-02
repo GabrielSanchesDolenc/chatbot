@@ -24,58 +24,67 @@ async function submitQuestion() {
     const typing = addTyping();
 
     try {
-        const res = await fetch('/perguntar', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-            body: new URLSearchParams({ pergunta: text })
-        });
-        const data = await res.json();
+    const res = await fetch('/perguntar', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: new URLSearchParams({ pergunta: text })
+    });
+    const data = await res.json();
 
-        typing.remove();
-        statusEl.textContent = 'online';
+    typing.remove();
+    statusEl.textContent = 'online';
 
-        if (data.status === 'ok') {
+    // Adicione um log para debug (pode remover depois)
+    console.log('Resposta do servidor:', data);
+
+    if (data.status === 'ok') {
+        // Verifica se é uma resposta de produto ou do dataset
+        if (data.is_product) {
+            addMsg(data.answer, 'bot', data.reason || 'produto encontrado');
+        } else {
             addMsg(data.answer, 'bot', data.reason || '');
-        } 
-        else if (data.status === 'ask_accept') {
-            const perguntaSug = data.suggested_question || data.suggested_product || '';
-            const isProduct = !!data.suggested_product;
-             const respostaParaSalvar = data.clean_answer || data.suggested_answer;
-            const wrap = addMsg(
-                data.suggested_answer || 'Achei algo parecido, deseja confirmar?',
-                'bot',
-                data.score ? `similaridade ${data.score.toFixed(2)}` : ''
-            );
-            
-            const btnContainer = document.createElement('div');
-            btnContainer.style.marginTop = '10px';
-
-            const btnYes = document.createElement('button');
-            btnYes.className = 'btn';
-            btnYes.textContent = 'Sim';
-            btnYes.onclick = () => confirmarResposta(respostaParaSalvar, perguntaSug, isProduct);
-
-            const btnNo = document.createElement('button');
-            btnNo.className = 'btn';
-            btnNo.style.marginLeft = '8px';
-            btnNo.textContent = 'Não';
-            btnNo.onclick = () => pedirEnsino(text);
-
-            btnContainer.append(btnYes, btnNo);
-            wrap.querySelector('.text').appendChild(btnContainer);
-        } 
-        else if (data.status === 'teach') {
-            pedirEnsino(text);
-        } 
-        else {
-            addMsg('Não entendi a resposta do servidor.', 'bot');
         }
-    } catch (err) {
-        typing.remove();
-        statusEl.textContent = 'offline';
-        addMsg('Erro ao conectar com o servidor.', 'bot');
-        console.error(err);
-    } finally {
+    } 
+      else if (data.status === 'ask_accept') {
+          const perguntaSug = data.suggested_question || data.suggested_product || '';
+          const isProduct = !!data.suggested_product;
+          const respostaParaSalvar = data.clean_answer || data.suggested_answer;
+          
+          const wrap = addMsg(
+              data.suggested_answer || 'Achei algo parecido, deseja confirmar?',
+              'bot',
+              data.score ? `similaridade ${data.score.toFixed(2)}` : ''
+          );
+          
+          const btnContainer = document.createElement('div');
+          btnContainer.style.marginTop = '10px';
+
+          const btnYes = document.createElement('button');
+          btnYes.className = 'btn';
+          btnYes.textContent = 'Sim';
+          btnYes.onclick = () => confirmarResposta(respostaParaSalvar, perguntaSug, isProduct);
+
+          const btnNo = document.createElement('button');
+          btnNo.className = 'btn';
+          btnNo.style.marginLeft = '8px';
+          btnNo.textContent = 'Não';
+          btnNo.onclick = () => pedirEnsino(text);
+
+          btnContainer.append(btnYes, btnNo);
+          wrap.querySelector('.text').appendChild(btnContainer);
+      } 
+      else if (data.status === 'teach') {
+          pedirEnsino(text);
+      } 
+      else {
+          addMsg('Não entendi a resposta do servidor: ' + JSON.stringify(data), 'bot');
+      }
+  } catch (err) {
+      typing.remove();
+      statusEl.textContent = 'offline';
+      addMsg('Erro ao conectar com o servidor.', 'bot');
+      console.error(err);
+   } finally {
         sendBtn.disabled = false;
     }
 }
