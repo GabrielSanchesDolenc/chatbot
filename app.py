@@ -13,6 +13,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 app = Flask(__name__)
 
+
 dataset_path = 'qa_dataset_improved.csv'
 estoque_path = 'estoque_eletronicos.csv'
 
@@ -160,20 +161,10 @@ def perguntar():
     global df, model_bundle
     user_q = request.form.get('pergunta')
 
-    # Verifica estoque primeiro
-    produto = buscar_produto(user_q)
-    if produto is not None:
-        resposta = f'O produto "{produto["nome_produto"]}" custa R$ {produto["preco"]:.2f}. Gostaria de continuar a compra?'
-        return jsonify({'status': 'ok', 'answer': resposta})
-
-    produto_similar = buscar_produto_similar(user_q)
-    if produto_similar is not None:
-        resposta = f'Não encontrei exatamente, mas temos "{produto_similar["nome_produto"]}" por R$ {produto_similar["preco"]:.2f}. Quer saber mais?'
-        return jsonify({'status': 'ask_accept', 'suggested_answer': resposta, 'suggested_product': produto_similar["nome_produto"]})
-
-    # Caso não seja produto, usa IA
+    # 1) Tenta responder com dataset de perguntas
     sims = find_similar_questions(user_q)
     if sims and sims[0]['score'] >= HIGH_SIM_THRESHOLD:
+        # salva automaticamente
         if user_q not in df['question'].values:
             q_norm = normalize_text(user_q)
             now = datetime.utcnow().isoformat()
@@ -191,9 +182,40 @@ def perguntar():
         return jsonify({'status': 'ok', 'answer': sims[0]['answer'], 'reason': f"similaridade alta ({sims[0]['score']:.2f})"})
 
     if sims and LOW_SIM_THRESHOLD <= sims[0]['score'] < HIGH_SIM_THRESHOLD:
-        return jsonify({'status': 'ask_accept', 'suggested_answer': sims[0]['answer'], 'suggested_question': sims[0]['question'], 'score': sims[0]['score']})
+        return jsonify({
+            'status': 'ask_accept',
+            'suggested_answer': sims[0]['answer'],
+            'suggested_question': sims[0]['question'],
+            'score': sims[0]['score']
+        })
 
-    return jsonify({'status': 'teach', 'message': 'Não sei responder. Por favor, ensine.'})
+    # 2) Caso não ache nada no dataset, procura no estoque
+    produto = buscar_produto(user_q)
+    if produto is not None:
+        resposta_completa = f'O produto "{produto["nome_produto"]}" custa R$ {produto["preco"]:.2f}. Gostaria de continuar a compra?'
+        resposta_limpa = f'O produto "{produto["nome_produto"]}" custa R$ {produto["preco"]:.2f}.'
+        return jsonify({
+            'status': 'ok', 
+            'answer': resposta_completa,
+            'clean_answer': resposta_limpa,
+            'product_name': produto["nome_produto"],
+            'is_product': True
+        })
+
+    produto_similar = buscar_produto_similar(user_q)
+    if produto_similar is not None:
+        resposta_completa = f'Não encontrei exatamente, mas temos "{produto_similar["nome_produto"]}" por R$ {produto_similar["preco"]:.2f}. Quer saber mais?'
+        resposta_limpa = f'Temos "{produto_similar["nome_produto"]}" por R$ {produto_similar["preco"]:.2f}.'
+        return jsonify({
+            'status': 'ask_accept',
+            'suggested_answer': resposta_completa,
+            'clean_answer': resposta_limpa,
+            'suggested_product': produto_similar["nome_produto"],
+            'is_product': True
+        })
+
+    # 3) Se não achou nada em nenhum lugar → pedir para ensinar
+    return jsonify({'status': 'teach', 'message': 'Não sei responder. Pode me ensinar e salvar essa resposta?'})
 
 @app.route('/confirmar', methods=['POST'])
 def confirmar():
@@ -201,27 +223,33 @@ def confirmar():
     pergunta_usuario = request.form.get('pergunta_usuario')
     pergunta_similar = request.form.get('pergunta_similar')
     resposta_confirmada = request.form.get('resposta_confirmada')
-    intent = request.form.get('intent')
-    
-    pergunta_original = df[df['question'] == pergunta_similar].iloc[0]
-    intent_original = pergunta_original['intent']
-    
+    intent = request.form.get('intent', '')  # Adicionado valor padrão
+
+    # Se não veio intent, tenta encontrar da pergunta similar
+    if not intent:
+        similar_match = df[df['question'] == pergunta_similar]
+        if not similar_match.empty:
+            intent = similar_match.iloc[0]['intent']
+        else:
+            # Se não encontrou, usa uma padrão para estoque
+            intent = 'consulta_estoque'
+
     q_norm = normalize_text(pergunta_usuario)
     now = datetime.utcnow().isoformat()
-    
+
     new_row = {
         'question': pergunta_usuario,
         'answer': resposta_confirmada,
-        'intent': intent_original, 
+        'intent': intent,
         'normalized_question': q_norm,
         'created_at': now,
         'taught_by': teacher_name
     }
-    
+
     df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
     save_dataset(df)
     model_bundle = train_model(df)
-    
+
     return jsonify({'status': 'ok', 'message': 'Aprendi uma nova forma de perguntar!'})
 
 @app.route('/ensinar', methods=['POST'])
