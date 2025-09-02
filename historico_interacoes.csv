@@ -1,0 +1,69 @@
+session_id;pergunta;resposta;intent;timestamp;confirmada
+ccf88f7d-318b-4e8d-ade0-03e004b0d7ce;queria compra um Xbox Series X;Encontrei: Xbox Series X - R$ 4699.90;consulta_estoque;2025-09-02T18:12:13.757335;False
+ccf88f7d-318b-4e8d-ade0-03e004b0d7ce;Adicionar produto ID 2;Produto Xbox Series X adicionado ao carrinho;adicionar_carrinho;2025-09-02T18:12:21.252207;True
+ccf88f7d-318b-4e8d-ade0-03e004b0d7ce;Ver carrinho;Visualização do carrinho;ver_carrinho;2025-09-02T18:12:43.171086;True
+ccf88f7d-318b-4e8d-ade0-03e004b0d7ce;Finalizar compra;Compra finalizada com sucesso;finalizar_compra;2025-09-02T18:12:45.167475;True
+ccf88f7d-318b-4e8d-ade0-03e004b0d7ce;queria compra um  Xbox Series X;Encontrei: Xbox Series X - R$ 4699.90;consulta_estoque;2025-09-02T18:16:14.629106;False
+ccf88f7d-318b-4e8d-ade0-03e004b0d7ce;Adicionar produto ID 2;Produto Xbox Series X adicionado ao carrinho;adicionar_carrinho;2025-09-02T18:16:33.687451;True
+ccf88f7d-318b-4e8d-ade0-03e004b0d7ce;Ver carrinho;Visualização do carrinho;ver_carrinho;2025-09-02T18:16:35.876771;True
+ccf88f7d-318b-4e8d-ade0-03e004b0d7ce;queria compra um Xbox Series X;Encontrei: Xbox Series X - R$ 4699.90;consulta_estoque;2025-09-02T18:30:39.195831;False
+ccf88f7d-318b-4e8d-ade0-03e004b0d7ce;Adicionar produto ID 2;Produto Xbox Series X adicionado ao carrinho;adicionar_carrinho;2025-09-02T18:30:43.553491;True
+ccf88f7d-318b-4e8d-ade0-03e004b0d7ce;quantos dedos tem uma pessoa?;Não sei responder;unknown;2025-09-02T19:21:51.764537;False
+ccf88f7d-318b-4e8d-ade0-03e004b0d7ce;quantos dedos tem uma pessoa?;uma pessoa, normalmente tem 20 dedos, 10 nas mãos e 10 nos pés;Biologia;2025-09-02T19:22:36.749566;True
+ccf88f7d-318b-4e8d-ade0-03e004b0d7ce;quantos dedos tem uma pessoa?;uma pessoa, normalmente tem 20 dedos, 10 nas mãos e 10 nos pés;Biologia;2025-09-02T19:22:49.144181;False
+ccf88f7d-318b-4e8d-ade0-03e004b0d7ce;quantos dedos tem uma pessoa?;uma pessoa, normalmente tem 20 dedos, 10 nas mãos e 10 nos pés;Biologia;2025-09-02T19:22:53.084663;True
+ccf88f7d-318b-4e8d-ade0-03e004b0d7ce;quantos dedos uma pessoa tem na mão?;uma pessoa, normalmente tem 20 dedos, 10 nas mãos e 10 nos pés;Biologia;2025-09-02T19:23:06.152723;False
+ccf88f7d-318b-4e8d-ade0-03e004b0d7ce;quantos dedos uma pessoa tem na mão?;uma pessoa, normalmente tem 20 dedos, 10 nas mãos e 10 nos pés;Biologia;2025-09-02T19:23:19.588482;True
+ccf88f7d-318b-4e8d-ade0-03e004b0d7ce;quero comprar um console;Finalização de compra;finalizar_compra;2025-09-02T19:23:39.623020;True
+ccf88f7d-318b-4e8d-ade0-03e004b0d7ce;Finalizar compra;Compra finalizada com sucesso;finalizar_compra;2025-09-02T19:23:39.636130;True
+ccf88f7d-318b-4e8d-ade0-03e004b0d7ce;não!;Tudo bem, sem problemas! Quer dar uma olhada em outros produto;unknown;2025-09-02T19:24:15.595509;False
+ccf88f7d-318b-4e8d-ade0-03e004b0d7ce;não!;Tudo bem, sem problemas! Quer dar uma olhada em outros produto;unknown;2025-09-02T19:24:19.743377;True
+ccf88f7d-318b-4e8d-ade0-03e004b0d7ce;sim;Ótimo! Vou redirecionar você para a página;unknown;2025-09-02T19:24:23.626774;False
+ccf88f7d-318b-4e8d-ade0-03e004b0d7ce;sim;Ótimo! Vou redirecionar você para a página;unknown;2025-09-02T19:24:28.912367;True
+ccf88f7d-318b-4e8d-ade0-03e004b0d7ce;quais consoles voce tem disponivel ?;"Encontrei 5 produtos na categoria 'console':
+1. PlayStation 5 - R$ 4999.90
+2. Xbox Series X - R$ 4699.90
+3. Nintendo Switch OLED - R$ 2899.90
+4. Controle DualSense - R$ 399.90
+5. Controle Xbox Series - R$ 379.90
+
+Qual desses você quer adicionar ao carrinho?";consulta_estoque;2025-09-02T19:24:43.630655;True
+ccf88f7d-318b-4e8d-ade0-03e004b0d7ce;Adicionar produto ID 1;Produto PlayStation 5 adicionado ao carrinho;adicionar_carrinho;2025-09-02T19:24:58.435139;True
+ccf88f7d-318b-4e8d-ade0-03e004b0d7ce;Ver carrinho;Visualização do carrinho;ver_carrinho;2025-09-02T19:25:02.451388;True
+ccf88f7d-318b-4e8d-ade0-03e004b0d7ce;Finalizar compra;Compra finalizada com sucesso;finalizar_compra;2025-09-02T19:25:05.885447;True
+ccf88f7d-318b-4e8d-ade0-03e004b0d7ce;voce vende consoles?;"Encontrei 5 produtos na categoria 'console':
+1. PlayStation 5 - R$ 4999.90
+2. Xbox Series X - R$ 4699.90
+3. Nintendo Switch OLED - R$ 2899.90
+4. Controle DualSense - R$ 399.90
+5. Controle Xbox Series - R$ 379.90
+
+Qual desses você quer adicionar ao carrinho?";consulta_estoque;2025-09-02T19:26:36.987207;True
+ccf88f7d-318b-4e8d-ade0-03e004b0d7ce;qual é o console mais barato que tem disponivel?;"Encontrei 5 produtos na categoria 'console':
+1. PlayStation 5 - R$ 4999.90
+2. Xbox Series X - R$ 4699.90
+3. Nintendo Switch OLED - R$ 2899.90
+4. Controle DualSense - R$ 399.90
+5. Controle Xbox Series - R$ 379.90
+
+Qual desses você quer adicionar ao carrinho?";consulta_estoque;2025-09-02T19:26:53.971505;True
+ccf88f7d-318b-4e8d-ade0-03e004b0d7ce;o que vc tem de computador?;"Não encontrei exatamente, mas temos ""Placa de Vídeo RTX 3060"" por R$ 1999.90.";consulta_estoque;2025-09-02T19:27:16.214321;False
+ccf88f7d-318b-4e8d-ade0-03e004b0d7ce;quais peças de computador tem disponivel?;"Não encontrei exatamente, mas temos ""Placa de Vídeo RTX 3060"" por R$ 1999.90.";consulta_estoque;2025-09-02T19:27:45.931529;False
+ccf88f7d-318b-4e8d-ade0-03e004b0d7ce;ola;ola tudo bem, como posso ajudar;unknown;2025-09-02T19:29:38.159358;False
+ccf88f7d-318b-4e8d-ade0-03e004b0d7ce;qual é a capital do brasil?;Não sei responder;unknown;2025-09-02T19:30:13.948984;False
+ccf88f7d-318b-4e8d-ade0-03e004b0d7ce;qual é a capital do brasil?;a capital do Brasil é Brasilha;Geografia;2025-09-02T19:30:40.974842;True
+ccf88f7d-318b-4e8d-ade0-03e004b0d7ce;qual é a capital do brasil;a capital do Brasil é Brasilha;Geografia;2025-09-02T19:30:47.890608;False
+ccf88f7d-318b-4e8d-ade0-03e004b0d7ce;qual é a capital dos estados unidos?;Não sei responder;unknown;2025-09-02T19:31:05.245382;False
+ccf88f7d-318b-4e8d-ade0-03e004b0d7ce;qual é a capital dos estados unidos?;a capital dos estados unidos é washinton;Geografia;2025-09-02T19:31:25.187571;True
+ccf88f7d-318b-4e8d-ade0-03e004b0d7ce;qual é a capital dos estados unidos?;a capital dos estados unidos é washinton;Geografia;2025-09-02T19:31:30.494727;False
+ccf88f7d-318b-4e8d-ade0-03e004b0d7ce;qual é a capital da Alemanha?;Não sei responder;unknown;2025-09-02T19:31:40.983097;False
+ccf88f7d-318b-4e8d-ade0-03e004b0d7ce;qual é a capital da Alemanha?;a capital da alemanha é Berlim;Geografia;2025-09-02T19:31:55.337676;True
+ccf88f7d-318b-4e8d-ade0-03e004b0d7ce;qual é a capital da Alemanha?;a capital da alemanha é Berlim;Geografia;2025-09-02T19:32:00.146208;False
+ccf88f7d-318b-4e8d-ade0-03e004b0d7ce;liste a capital do Brasil, estados unidos e Alemanha;Não sei responder;unknown;2025-09-02T19:32:30.894154;False
+ccf88f7d-318b-4e8d-ade0-03e004b0d7ce;Qual é o professor mais gato dessa faculdade?;Não sei responder;unknown;2025-09-02T19:38:19.208471;False
+ccf88f7d-318b-4e8d-ade0-03e004b0d7ce;Qual é o melhor jogo do mundo?;Não sei responder;unknown;2025-09-02T19:39:26.797721;False
+ccf88f7d-318b-4e8d-ade0-03e004b0d7ce;Qual é o melhor jogo do mundo?;O melhor jogo do mundo é o Lendario League of Legends;Jogo;2025-09-02T19:39:53.444925;True
+ccf88f7d-318b-4e8d-ade0-03e004b0d7ce;Qual é o melhor jogo do mundo?;O melhor jogo do mundo é o Lendario League of Legends;Jogo;2025-09-02T19:39:57.011128;False
+ccf88f7d-318b-4e8d-ade0-03e004b0d7ce;qual é o melhor jogo?;O melhor jogo do mundo é o Lendario League of Legends;Jogo;2025-09-02T19:40:08.922798;False
+ccf88f7d-318b-4e8d-ade0-03e004b0d7ce;qual é o melhor jogo?;O melhor jogo do mundo é o Lendario League of Legends;Jogo;2025-09-02T19:44:07.425339;True
+ccf88f7d-318b-4e8d-ade0-03e004b0d7ce;Quem é voce?;Não sei responder;unknown;2025-09-02T19:45:19.900251;False

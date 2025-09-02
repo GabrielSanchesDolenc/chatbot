@@ -8,6 +8,9 @@
   --text: #e9edef;
   --text-dim: #8596a0;
   --border: #2a3942;
+  --confirm-yes: #00a884;
+  --confirm-no: #e74c3c;
+  --product-bg: #2a3942;
 }
 
 *{ box-sizing:border-box; }
@@ -47,9 +50,39 @@ body{
 
 .header .title{
   display:flex; flex-direction:column;
+  flex-grow: 1;
 }
 .header .title .name{ font-weight:600; }
 .header .title .status{ font-size:12px; color:var(--text-dim); }
+
+/* Carrinho no header */
+.cart-icon {
+  position: relative;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  transition: background 0.2s;
+}
+
+.cart-icon:hover {
+  background: var(--panel-2);
+}
+
+.cart-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: var(--accent);
+  color: #071f17;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: bold;
+}
 
 .chat{
   flex:1;
@@ -145,8 +178,176 @@ body{
   border:none; cursor:pointer; padding:10px 14px;
   border-radius:24px; background:var(--accent); color:#071f17;
   font-weight:600;
+  transition: all 0.2s ease;
 }
 .btn[disabled]{ opacity:.6; cursor:not-allowed; }
 
 ::-webkit-scrollbar{ width:10px; }
 ::-webkit-scrollbar-thumb{ background:var(--border); border-radius:8px; }
+
+/* ===== NOVOS ESTILOS PARA AS FUNCIONALIDADES ADICIONAIS ===== */
+
+/* Botões de confirmação */
+.confirmation-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+.confirm-yes, .confirm-no {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 18px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.confirm-yes {
+  background: var(--confirm-yes);
+  color: #071f17;
+}
+
+.confirm-yes:hover {
+  background: #008f70;
+  transform: translateY(-1px);
+}
+
+.confirm-no {
+  background: var(--confirm-no);
+  color: white;
+}
+
+.confirm-no:hover {
+  background: #c0392b;
+  transform: translateY(-1px);
+}
+
+/* Grid de produtos */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin: 12px 0;
+}
+
+.product-btn {
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--product-bg);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+  color: var(--text);
+}
+
+.product-btn:hover {
+  background: var(--accent);
+  color: #071f17;
+  transform: translateY(-2px);
+}
+
+.product-btn strong {
+  display: block;
+  margin-bottom: 4px;
+}
+
+.product-btn span {
+  font-size: 14px;
+  color: inherit;
+}
+
+/* Ações do carrinho */
+.cart-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+  flex-wrap: wrap;
+}
+
+/* Mensagens de confirmação */
+.confirmation-message {
+  font-weight: bold;
+  margin: 10px 0;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  border-left: 3px solid var(--accent);
+}
+
+/* Campos de entrada para ensino */
+.msg.bot input[type="text"] {
+  width: 100%;
+  margin: 6px 0;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--panel-2);
+  color: var(--text);
+}
+
+.msg.bot input[type="text"]::placeholder {
+  color: var(--text-dim);
+}
+
+/* Responsividade */
+@media (max-width: 600px) {
+  .products-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .confirmation-buttons {
+    flex-direction: column;
+  }
+  
+  .msg {
+    max-width: 90%;
+  }
+  
+  .cart-actions {
+    flex-direction: column;
+  }
+}
+
+/* Animações suaves */
+.fade-in {
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Estilo para mensagens do sistema */
+.msg.system {
+  background: rgba(0, 168, 132, 0.1);
+  border: 1px solid rgba(0, 168, 132, 0.3);
+  margin: 12px auto;
+  text-align: center;
+  max-width: 85%;
+}
+
+/* Melhorias de acessibilidade */
+.btn:focus,
+.confirm-yes:focus,
+.confirm-no:focus,
+.product-btn:focus,
+input:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Estilo para mensagens de erro */
+.msg.error {
+  background: rgba(231, 76, 60, 0.1);
+  border: 1px solid rgba(231, 76, 60, 0.3);
+}
+
+/* Estilo para mensagens de sucesso */
+.msg.success {
+  background: rgba(0, 168, 132, 0.1);
+  border: 1px solid rgba(0, 168, 132, 0.3);
+}

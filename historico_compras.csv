@@ -1,0 +1,4 @@
+session_id;produtos;valor_total;data_hora
+ccf88f7d-318b-4e8d-ade0-03e004b0d7ce;"[{""categoria"": ""Console"", ""id"": 2, ""nome_produto"": ""Xbox Series X"", ""normalized_produto"": ""xbox series x"", ""preco"": 4699.9, ""quantidade"": 8, ""quantity"": 1}]";4699.9;2025-09-02T18:12:45.167475
+ccf88f7d-318b-4e8d-ade0-03e004b0d7ce;"[{""categoria"": ""Console"", ""id"": 2, ""nome_produto"": ""Xbox Series X"", ""normalized_produto"": ""xbox series x"", ""preco"": 4699.9, ""quantidade"": 8, ""quantity"": 2}]";9399.8;2025-09-02T19:23:39.635121
+ccf88f7d-318b-4e8d-ade0-03e004b0d7ce;"[{""categoria"": ""Console"", ""id"": 1, ""nome_produto"": ""PlayStation 5"", ""normalized_produto"": ""playstation 5"", ""preco"": 4999.9, ""quantidade"": 10, ""quantity"": 1}]";4999.9;2025-09-02T19:25:05.882192

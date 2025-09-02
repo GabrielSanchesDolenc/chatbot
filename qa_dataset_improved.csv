@@ -7,8 +7,29 @@ Qual é a moto mais veloz do mundo?,A moto mais veloz do mundo é a do Marc Marq
 Qual jogo tem a melhor história?,O jogo com a melhor história é Tomb Raider.,informacao_jogo,qual jogo tem a melhor historia?,2025-09-01T21:21:14.780488,seed
 Qual moto o Rogerio tem?,"Ele tem uma TDM 850 e uma NC 750x, ambas são bem bacanas.",informacao_rogerio,qual moto o rogerio tem?,2025-09-01T21:21:14.780488,seed
 ola,"ola tudo bem, como posso ajudar",unknown,ola,2025-09-01T21:21:36.054563,anonimo
-queria compra Nintendo,"Temos ""Nintendo Switch OLED"" por R$ 2899.90.",consulta_estoque,queria compra nintendo,2025-09-02T01:49:18.502676,anonimo
 Jogo popular?,Uma excelente recomendação de jogo popular é o Minecraft,informacao_jogo,jogo popular?,2025-09-02T01:57:16.108379,anonimo
 Como trocar a senha?,Você pode trocar a senha nas configurações da conta,unknown,como trocar a senha?,2025-09-02T01:58:40.089671,anonimo
 sim,Ótimo! Vou redirecionar você para a página,unknown,sim,2025-09-02T02:21:42.907567,anonimo
 nao,"Tudo bem, sem problemas! Quer dar uma olhada em outros produto",unknown,nao,2025-09-02T02:22:08.476529,anonimo
+ola[,"ola tudo bem, como posso ajudar",unknown,ola[,2025-09-02T17:42:02.695303,auto_learn
+ola,"ola tudo bem, como posso ajudar",unknown,ola,2025-09-02T19:24:09.160575,auto_learn
+queria compra um Xbox Series X,"O produto ""Xbox Series X"" custa R$ 4699.90. Gostaria de continuar a compra?",estoque,queria compra um xbox series x,2025-09-02T19:24:21.729427,auto_estoque
+ola,"ola tudo bem, como posso ajudar",unknown,ola,2025-09-02T19:33:07.092106,auto_learn
+queria compra um  Notebook Acer Aspire 5,"O produto ""Notebook Acer Aspire 5"" custa R$ 3299.00. Gostaria de continuar a compra?",estoque,queria compra um notebook acer aspire 5,2025-09-02T19:33:19.368179,auto_estoque
+queria compra um PlayStation 5,"O produto ""PlayStation 5"" custa R$ 4999.90. Gostaria de continuar a compra?",estoque,queria compra um playstation 5,2025-09-02T19:33:36.670319,auto_estoque
+queria ver quais Notebook tem,"Encontrei o produto ""Notebook Dell Inspiron 15"" por R$ 3899.00. É isso que você está procurando?",estoque,queria ver quais notebook tem,2025-09-02T19:34:24.947075,auto_estoque
+queria ver quais Notebook tem,undefined,consulta_estoque,queria ver quais notebook tem,2025-09-02T19:34:29.954051,user_confirm
+Notebook,"O produto ""Notebook Dell Inspiron 15"" custa R$ 3899.00. Gostaria de continuar a compra?",estoque,notebook,2025-09-02T19:34:33.073587,auto_estoque
+ola,"ola tudo bem, como posso ajudar",unknown,ola,2025-09-02T20:12:59.169840,user_confirmation
+queria compra um Notebook Dell Inspiron 15,"O produto ""Notebook Dell Inspiron 15"" custa R$ 3899.00 gostaria de colocar no carrinho.",consulta_estoque,queria compra notebook dell inspiron,2025-09-02T20:14:23.294131,user_confirmation
+queria compra um  PC Gamer i7,"O produto ""PC Gamer i7"" custa R$ 7499.00 gostaria de colocar no carrinho.",consulta_estoque,queria compra gamer,2025-09-02T20:14:42.500134,user_confirmation
+quantos dedos tem uma pessoa?,"uma pessoa, normalmente tem 20 dedos, 10 nas mãos e 10 nos pés",Biologia,quantos dedos pessoa,2025-09-02T22:22:36.718739,user_teach
+quantos dedos tem uma pessoa?,"uma pessoa, normalmente tem 20 dedos, 10 nas mãos e 10 nos pés",Biologia,quantos dedos pessoa,2025-09-02T22:22:53.070174,user_confirmation
+quantos dedos uma pessoa tem na mão?,"uma pessoa, normalmente tem 20 dedos, 10 nas mãos e 10 nos pés",Biologia,quantos dedos pessoa mao,2025-09-02T22:23:19.568825,user_confirmation
+não!,"Tudo bem, sem problemas! Quer dar uma olhada em outros produto",unknown,nao,2025-09-02T22:24:19.715786,user_confirmation
+sim,Ótimo! Vou redirecionar você para a página,unknown,sim,2025-09-02T22:24:28.892709,user_confirmation
+qual é a capital do brasil?,a capital do Brasil é Brasilha,Geografia,qual capital brasil,2025-09-02T22:30:40.935872,user_teach
+qual é a capital dos estados unidos?,a capital dos estados unidos é washinton,Geografia,qual capital estados unidos,2025-09-02T22:31:25.166866,user_teach
+qual é a capital da Alemanha?,a capital da alemanha é Berlim,Geografia,qual capital alemanha,2025-09-02T22:31:55.304880,user_teach
+Qual é o melhor jogo do mundo?,O melhor jogo do mundo é o Lendario League of Legends,Jogo,qual melhor jogo mundo,2025-09-02T22:39:53.427136,user_teach
+qual é o melhor jogo?,O melhor jogo do mundo é o Lendario League of Legends,Jogo,qual melhor jogo,2025-09-02T22:44:07.400599,user_confirmation
