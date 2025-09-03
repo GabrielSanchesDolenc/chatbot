@@ -172,36 +172,52 @@ def perguntar():
 @app.route('/confirmar', methods=['POST'])
 def confirmar():
     global df, model_bundle
-    pergunta_usuario = request.form.get('pergunta_usuario')
-    pergunta_similar = request.form.get('pergunta_similar')
-    resposta_confirmada = request.form.get('resposta_confirmada')
-    intent = request.form.get('intent')
-    
-    # Encontra a intenção da pergunta similar original
-    pergunta_original = df[df['question'] == pergunta_similar].iloc[0]
-    intent_original = pergunta_original['intent']
-    
-    # Cria nova linha com a MESMA resposta e intenção, mas pergunta diferente
-    q_norm = normalize_text(pergunta_usuario)
-    now = datetime.utcnow().isoformat()
-    
-    new_row = {
-        'question': pergunta_usuario,
-        'answer': resposta_confirmada,
-        'intent': intent_original, 
-        'normalized_question': q_norm,
-        'created_at': now,
-        'taught_by': teacher_name
-    }
-    
-    df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
-    save_dataset(df)
-    model_bundle = train_model(df)
-    
-    return jsonify({
-        'status': 'ok', 
-        'message': 'Aprendi uma nova forma de perguntar!'
-    })
+    pergunta_usuario = request.form.get('pergunta_usuario', '').strip()
+    pergunta_similar = request.form.get('pergunta_similar', '').strip()
+    resposta_confirmada = request.form.get('resposta_confirmada', '').strip()
+    intent = request.form.get('intent', '').strip() or None
+
+    # Validação dos campos obrigatórios
+    if not pergunta_usuario or not pergunta_similar or not resposta_confirmada:
+        return jsonify({'status': 'error', 'message': 'Dados insuficientes para confirmar ensino.'}), 400
+
+    try:
+        # Busca pergunta similar no dataset
+        pergunta_original = df[df['question'] == pergunta_similar]
+        if pergunta_original.empty:
+            return jsonify({'status': 'error', 'message': 'Pergunta similar não encontrada.'}), 404
+
+        # Se veio intent do front, usa; se não, pega do dataset; se não houver, fallback 'unknown'
+        intent_original = intent or pergunta_original.iloc[0].get('intent', 'unknown')
+
+        q_norm = normalize_text(pergunta_usuario)
+        now = datetime.utcnow().isoformat()
+
+        new_row = {
+            'question': pergunta_usuario,
+            'answer': resposta_confirmada,
+            'intent': intent_original,
+            'normalized_question': q_norm,
+            'created_at': now,
+            'taught_by': teacher_name
+        }
+
+        df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
+        save_dataset(df)
+
+        # Re-treina modelo
+        model_bundle = train_model(df)
+
+        return jsonify({
+            'status': 'ok',
+            'message': 'Aprendi uma nova forma de perguntar!'
+        })
+
+    except Exception as e:
+        # Log do erro no servidor para debug
+        app.logger.error(f"Erro no /confirmar: {str(e)}")
+        return jsonify({'status': 'error', 'message': f'Erro interno: {str(e)}'}), 500
+
 
 @app.route('/ensinar', methods=['POST'])
 def ensinar():
@@ -225,6 +241,5 @@ def ensinar():
     model_bundle = train_model(df)
 
     return jsonify({'status': 'ok', 'message': 'Aprendido com sucesso!'})
-
 if __name__ == '__main__':
     app.run(debug=True)
